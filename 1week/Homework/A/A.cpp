@@ -1,26 +1,16 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-class Compare
-{
-public:
-    bool operator()(pair<int,int> a, pair<int,int> b)
-    {
-        return a.second<b.second;
-    }
-};
 
 int main()
 {
     ios ::sync_with_stdio(0);
     cin.tie(0);
 
-    vector<unordered_set<int>> comb_map(1);
-    vector<int> freq_map (1, 1);
+    map<set<int>, int> comb_map;
     multiset<int, greater<int>>best_comp;
-
-    unordered_set< int> aux;
-    priority_queue<int>a;
+    set< int> aux;
+    
     int size = 1;
     int num_input, val;
     while (true)
@@ -32,38 +22,29 @@ int main()
         }
         
         best_comp = multiset<int, greater<int>>();
-        best_comp.insert(1);
-
-        for (int j = 0; j < 5; j++)
-        {
-            cin >> val;
-            comb_map[0].insert(val);
-        }
-
-        for (int i = 1; i < num_input; i++)
+        comb_map = map<set<int>, int>();
+       
+        for (int i = 0; i < num_input; i++)
         {
             int k = 0;
-            aux = unordered_set<int>();
+            aux = set<int>();
             bool is_similar = false;
             for (int j = 0; j < 5; j++)
             {
                 cin >> val;
                 aux.insert(val);
             }
-            for (int j = 0; j < size; j++)
-            {
-                if (aux == comb_map[j]){
-                    freq_map[j]++;
-                    best_comp.insert(freq_map[j]);
-                    is_similar = true;
-                    break;   
-                }
+            if (comb_map.count(aux)){
+                best_comp.insert(++comb_map[aux]);
             }
-            if (!is_similar){
-                comb_map.push_back(aux);
-                freq_map.push_back(1);
+            else{
+                comb_map[aux] = 1;
                 best_comp.insert(1);
             }
+            if (*best_comp.begin() > num_input/2){
+                break;
+            }
+            
 
         }
         auto it  = best_comp.begin();
