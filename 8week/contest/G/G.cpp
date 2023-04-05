@@ -1,64 +1,38 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
-ll num_Val, val;
-vector<ll> arr;
-multiset <ll> aux_arr;
-ll recur(multiset<ll> temp)
-{
-
-    if (temp.size() == 1)
-    {
-        return *temp.begin();
-    }
-    else
-    {
-        multiset<ll> gdc_arr;
-        for (auto it = temp.begin(); it != temp.end(); it++){
-            auto aux = it;
-            aux++;
-            if (aux == temp.end()){
-                auto past = it;
-                past--;
-                gdc_arr.insert(__gcd(*it, *past));
-            }else{
-                gdc_arr.insert(__gcd(*it, *aux));
-                it++;
-            }
-        }
-        return recur(gdc_arr);
-    }
-}
-
-ll solve()
-{
-    ll max = 0;
-    for (ll i = 0; i < num_Val; i++)
-    {
-        auto aux = arr[i];
-        aux_arr.erase(aux_arr.find(aux));
-        ll max_gdc = recur(aux_arr);
-        if (max_gdc > max){
-            max = max_gdc;
-        }
-        aux_arr.insert(aux);
-    }
-    return max;
-}
-
+ll n;
 int main()
 {
     ios ::sync_with_stdio(0);
     cin.tie(0);
 
-    cin >> num_Val;
-    arr = vector<ll>(num_Val);
-    for (ll i = 0; i < num_Val; i++)
-    {
+    cin >> n;
+    vector<ll> arr(n);
+    for (ll i = 0; i < n; i++){
         cin >> arr[i];
-        aux_arr.insert(arr[i]);
     }
-    ll ans = solve();
-    cout << ans;
+    vector<ll> left_gdc(n);
+    vector<ll> right_gdc(n);
 
+    left_gdc[0] = arr[0];
+    for (ll i = 1; i < n; i++){
+        left_gdc[i] = __gcd(left_gdc[i -1], arr[i]);
+    }
+    right_gdc[n-1] = arr[n-1];
+    for (ll i = n-2; i >= 0; i--){
+        right_gdc[i] = __gcd(right_gdc[i+1], arr[i]);
+    }
+    ll res = 1;
+    for (ll i = 0; i < n; i++){
+
+        ll left_to_i = i == 0 ? 0 : left_gdc[i - 1];
+        ll right_to_i = i == n-1 ? 0 : right_gdc[i + 1];
+
+        res = max(res, __gcd(left_to_i, right_to_i));
+    }
+    cout << res;
+
+    
+    
 }

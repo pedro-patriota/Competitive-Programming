@@ -4,11 +4,10 @@ using namespace std;
 #define endl '\n'
 ll n, m;
 vector<vector<bool>> arr;
-vector<vector<bool>> arr2;
 vector<vector<bool>> visited;
 bool ans = false;
 
-int bfs(int i, int j, vector<vector<bool>>& arr)
+ll bfs(int i, int j)
 {
     queue<tuple<long long, long long>> q;
     q.push(make_tuple(i, j));
@@ -24,7 +23,7 @@ int bfs(int i, int j, vector<vector<bool>>& arr)
         if (is == n - 1 && js == m - 1)
         {
             ans = true;
-            break;
+            return counter[is][js];
         }
         if (is - 1 >= 0)
         {
@@ -65,7 +64,47 @@ int bfs(int i, int j, vector<vector<bool>>& arr)
             }
         }
     }
-    return counter[n - 1][m-1];
+}
+
+void dfs(int i, int j)
+{
+    if (i == n - 1 && j == m - 1)
+    {
+        ans = true;
+        return;
+    }
+    if (i - 1 >= 0)
+    {
+        if (not visited[i - 1][j] && arr[i - 1][j] == true)
+        {
+            visited[i - 1][j] = true;
+            dfs(i - 1, j);
+        }
+    }
+    if (i + 1 < n)
+    {
+        if (not visited[i + 1][j] && arr[i + 1][j] == true)
+        {
+            visited[i + 1][j] = true;
+            dfs(i + 1, j);
+        }
+    }
+    if (j - 1 >= 0)
+    {
+        if (not visited[i][j - 1] && arr[i][j - 1] == true)
+        {
+            visited[i][j - 1] = true;
+            dfs(i, j - 1);
+        }
+    }
+    if (j + 1 < m)
+    {
+        if (not visited[i][j + 1] && arr[i][j + 1] == true)
+        {
+            visited[i][j + 1] = true;
+            dfs(i, j + 1);
+        }
+    }
 }
 
 int main()
@@ -75,7 +114,6 @@ int main()
 
     cin >> n >> m;
     arr = vector<vector<bool>>(n, vector<bool>(m));
-    arr2 = vector<vector<bool>>(n, vector<bool>(m));
     visited = vector<vector<bool>>(n, vector<bool>(m, false));
     char point;
     for (int j = 0; j < n; j++)
@@ -93,8 +131,7 @@ int main()
             }
         }
     }
-    
-    ll shortest_path = bfs(0, 0, arr);
+    ll shortest_path = bfs(0, 0);
     for (int j = 0; j < n; j++)
     {
         for (int i = 0; i < m; i++)
@@ -102,18 +139,13 @@ int main()
             cin >> point;
             if (point == '#')
             {
-                arr2[j][i] = false;
                 arr[j][i] = false;
-            }else{
-                arr2[j][i] = true;
             }
         }
     }
-    visited = vector<vector<bool>>(n, vector<bool>(m, false));
-    ll shortest_path2 = bfs(0, 0, arr2);
-    visited = vector<vector<bool>>(n, vector<bool>(m, false));
-    ll new_path = bfs(0, 0, arr);
-    if (ans && shortest_path == new_path && shortest_path2 == new_path)
+
+    ll new_path = bfs(0, 0);
+    if (ans && shortest_path == new_path)
     {
         cout << "YES";
     }

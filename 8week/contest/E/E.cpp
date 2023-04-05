@@ -6,14 +6,14 @@ int main()
 {
     ios ::sync_with_stdio(0);
     cin.tie(0);
-    ofstream fout ("speeding.out");
-    ifstream fin ("speeding.in");
+     ofstream fout ("speeding.out");
+    ifstream fin ("speeding.in"); 
 
     fin >> n >> m;
     vector<ll> speed_limit(n);
     vector<ll> km_speed_limit(n);
-    vector<ll> speed_cow(n);
-    vector<ll> km_speed_cow(n);
+    vector<ll> speed_cow(m);
+    vector<ll> km_speed_cow(m);
     ll km, vel;
     fin >> km >> vel;
     speed_limit[0] = vel;
@@ -38,12 +38,14 @@ int main()
     {
         auto act_limit = lower_bound(km_speed_limit.begin(), km_speed_limit.end(), i);
         auto act_speed = lower_bound(km_speed_cow.begin(), km_speed_cow.end(),i );
+
         ll limit = speed_limit[act_limit - km_speed_limit.begin()];
         ll speed = speed_cow[act_speed - km_speed_cow.begin()];
         if ((speed - limit) > max)
         {
             max = speed - limit;
         }
+        i = min(*act_limit, *act_speed);
     }
     fout << max;
 }
