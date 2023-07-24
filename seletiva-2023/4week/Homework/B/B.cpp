@@ -34,9 +34,9 @@ int main()
     ios ::sync_with_stdio(0);
     cin.tie(0);
     cin >> n >> m;
-    sizeUF = parent = vector<ll>(n);
     set<ll> aux;
     vector<bool> mark(n, false);
+    sizeUF = parent = vector<ll>(n);
     for (ll i = 0; i < n; i++)
     {
         sizeUF[i] = 1;

@@ -16,8 +16,8 @@ int main()
   
     for (int i = 0; i < n; i++){
         cin >> arr[i];
-        arr[i + n] = arr[i];
-    }
+        arr[i + n] = [i];
+    }arr
     comb[0][0] = 1;
     for (int i = 1; i <= n; i++){
         comb[i][0] = 0;
