@@ -7,10 +7,18 @@ using namespace std;
 #define Y second
 #define PB push_back
 
-bool multiTest = false;
+bool multiTest = true;
 
 void solve(){
-    
+    vector<int> freq (37, 0);
+    int n, num; cin >> n; ll ans = 0;
+    for (int i = 0; i < n; i++){
+        cin >> num;
+        int msb = 31 - __builtin_clz(num);
+        ans += freq[msb];
+        freq[msb]++;
+    }
+    cout << ans<< endl;
 }
 
 int main()

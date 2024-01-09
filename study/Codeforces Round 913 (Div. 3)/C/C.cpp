@@ -7,10 +7,19 @@ using namespace std;
 #define Y second
 #define PB push_back
 
-bool multiTest = false;
+bool multiTest = true;
 
 void solve(){
-    
+    int n;
+    string s;
+    cin >> n >> s;
+    vector<int> alfa(26, 0);
+    int mx = 0;
+    for (int i = 0 ; i < s.size(); i++){
+        mx = max(mx, ++alfa[s[i] - 'a']);
+    }
+    int ans =  max(n%2, 2*mx - n);
+    cout << ans << endl;
 }
 
 int main()
