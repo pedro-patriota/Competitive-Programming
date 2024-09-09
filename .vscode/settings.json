@@ -75,7 +75,10 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "k": "cpp"
+        "k": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "source_location": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
